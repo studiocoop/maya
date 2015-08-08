@@ -1,0 +1,2 @@
+# maya
+Cooperative Maya Repository
