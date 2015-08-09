@@ -37,6 +37,7 @@ def showOnlyAnim():
         cmds.modelEditor(currentModelPanel, e=True, ns=True) #nurbs surfaces
         cmds.modelEditor(currentModelPanel, e=True, nc=True) #nurbs curves
         cmds.modelEditor(currentModelPanel, e=True, pm=True) #polygons
+        cmds.modelEditor(currentModelPanel, e=True, motionTrails=True) #motion trails
         cmds.modelEditor(currentModelPanel, e=True, displayAppearance='smoothShaded')
     else:
         cmds.warning("No active model panel"),
@@ -50,6 +51,7 @@ def showOnlyLayout():
         cmds.modelEditor(currentModelPanel, e=True, ns=True) #nurbs surfaces
         cmds.modelEditor(currentModelPanel, e=True, pm=True) #polygons
         cmds.modelEditor(currentModelPanel, e=True, ca=True) #cameras
+        cmds.modelEditor(currentModelPanel, e=True, motionTrails=True) #motion trails
         cmds.modelEditor(currentModelPanel, e=True, displayAppearance='flatShaded')
     else:
         cmds.warning("No active model panel"),
