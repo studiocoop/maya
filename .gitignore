@@ -34,3 +34,5 @@ Thumbs.db
 # Private files #
 #################
 /private/*
+*.pydevproject
+*.project
