@@ -21,6 +21,7 @@ import coopLib as lib
 import maya.mel as mel
 import maya.cmds as cmds
 
+#this script may benefit from a userSettings file
 
 hotkeyDict = {
         'default': [False,'o','a','g','t','t','s'],
@@ -44,6 +45,10 @@ def load():
         cmds.manipOptions( r=False, hs=55, ls=4 )
     #set framerate visibility
     mel.eval("setFrameRateVisibility(1);")
+    #gimbal rotation
+    cmds.manipRotateContext('Rotate', e=True, mode=2)
+    #world translation
+    cmds.manipMoveContext('Move', e=True, mode=2)
     
     #check if hotkeys have been set
     if (cmds.hotkey( 't', ctl=True, query=True, name = True)== 'CharacterAnimationEditorNameCommand'):

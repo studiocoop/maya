@@ -21,8 +21,9 @@
 @created:       14 Jul, 2015
 @change:        08 Aug, 2015
 '''
-import maya.cmds as cmds
 import coopLib as lib
+import maya.cmds as cmds
+
 
 def hideAllDisplayObjects(modelPanel):
     '''hides all display objects of modelPanel'''
@@ -38,6 +39,7 @@ def showOnlyAnim():
         cmds.modelEditor(currentModelPanel, e=True, nc=True) #nurbs curves
         cmds.modelEditor(currentModelPanel, e=True, pm=True) #polygons
         cmds.modelEditor(currentModelPanel, e=True, motionTrails=True) #motion trails
+        cmds.modelEditor(currentModelPanel, e=True, greasePencils=True) #grease pencil
         cmds.modelEditor(currentModelPanel, e=True, displayAppearance='smoothShaded')
     else:
         cmds.warning("No active model panel"),
@@ -52,6 +54,7 @@ def showOnlyLayout():
         cmds.modelEditor(currentModelPanel, e=True, pm=True) #polygons
         cmds.modelEditor(currentModelPanel, e=True, ca=True) #cameras
         cmds.modelEditor(currentModelPanel, e=True, motionTrails=True) #motion trails
+        cmds.modelEditor(currentModelPanel, e=True, greasePencils=True) #grease pencil
         cmds.modelEditor(currentModelPanel, e=True, displayAppearance='flatShaded')
     else:
         cmds.warning("No active model panel"),
