@@ -44,6 +44,12 @@ def deleteTrails(sel=None):
         mTrail = cmds.listConnections(selected, t='motionTrail' )
         if mTrail:
             cmds.delete('{0}*'.format(mTrail[0]))
+        else:
+            #check if a motion trail handle is selected
+            splitter = selected.split('Handle.')
+            if cmds.objectType(splitter[0], isType="motionTrail"):
+                cmds.delete(splitter[0])
+                
 
 
 def createTrails(sel=None):
@@ -78,6 +84,12 @@ def doMotionTrailsExist(sel):
     for selected in sel:
         if cmds.listConnections(selected, t='motionTrail' ):
             motionTrails+=1;
+        else:
+            #check if a motion trail handle is selected
+            splitter = selected.split('Handle.')
+            print "While checkong motion trails, {0}".format(splitter[0])
+            if cmds.objectType(splitter[0], isType="motionTrail"):
+                motionTrails+=1;
     if motionTrails>(totalSelected/2):
         return True
     else: 
