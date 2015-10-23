@@ -1,6 +1,6 @@
 '''
 @name:          animMotionTrailToggler.py
-@version:       1.0
+@version:       1.1
 @license:       coop
 @author:        Santiago Montesdeoca [studio.coop]
 @website:       artineering.io
@@ -9,15 +9,13 @@
 
 @requires:      -
 
-@dev:           delete motion trail from selected point at motion trail handle
-
 @run:           import animMotionTrailToggler
                 animMotionTrailToggler.toggleTrails()
                 || animMotionTrailToggler.deleteTrails()
                 || animMotionTrailToggler.createTrails()
 
 @created:       15 Jul, 2015
-@change:        30 Jul, 2015
+@change:        23 Oct, 2015
 '''
 import maya.mel as mel
 import maya.cmds as cmds
@@ -48,7 +46,7 @@ def deleteTrails(sel=None):
             #check if a motion trail handle is selected
             splitter = selected.split('Handle.')
             if cmds.objectType(splitter[0], isType="motionTrail"):
-                cmds.delete(splitter[0])
+                cmds.delete("{}*".format(splitter[0]))
                 
 
 
