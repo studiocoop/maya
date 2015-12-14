@@ -128,3 +128,13 @@ def restoreShelves():
                 os.rename(deletedShelf, restoredShelf)
     restartDialog()
 
+
+######################################################################################
+#PYSIDE UTILITIES
+######################################################################################
+#Convert .ui file to .py file
+def uiToPy(path):
+    from pysideuic import compileUi
+    pyfile = open(path, 'w')
+    compileUi("[path to input ui file]\makeCube.ui", pyfile, False, 4,False)
+    pyfile.close()

@@ -25,8 +25,10 @@ import coopLib as lib
 import maya.cmds as cmds
 
 
-def hideAllDisplayObjects(modelPanel):
+def hideAllDisplayObjects(modelPanel=None):
     '''hides all display objects of modelPanel'''
+    if not modelPanel:
+        modelPanel = lib.getActiveModelPanel()
     cmds.modelEditor(modelPanel, e=True, alo=False)
 
 
