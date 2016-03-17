@@ -20,7 +20,6 @@
 import coopLib as lib
 import maya.mel as mel
 import maya.cmds as cmds
-
 #this script may benefit from a userSettings file
 
 hotkeyDict = {
