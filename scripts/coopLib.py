@@ -12,7 +12,7 @@
 @run:           import coopLib as lib (suggested)
 
 @created:       05 May, 2015
-@change:        08 Aug, 2015
+@change:        19 Jun, 2016
 '''
 import os
 import sys
@@ -34,6 +34,10 @@ def getEnvDir():
     '''returns environment dir'''
     scriptsDir = os.path.abspath(cmds.internalVar(usd=True))
     return os.path.dirname(scriptsDir)
+
+def getLibDir():
+    '''returns directory of the library'''
+    return os.path.dirname(os.path.realpath(__file__))
 
 def openUrl(url):
     '''opens url in browser'''
