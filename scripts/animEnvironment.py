@@ -15,7 +15,7 @@
                 || animEnvironment.resetHotkeys()
 
 @created:       1 Jul, 2015
-@change:        10 Jul, 2015
+@change:        19 Jun, 2016
 '''
 import coopLib as lib
 import maya.mel as mel
@@ -48,13 +48,16 @@ def load():
     cmds.manipRotateContext('Rotate', e=True, mode=2)
     #world translation
     cmds.manipMoveContext('Move', e=True, mode=2)
-    
+    #time slider height
+    aPlayBackSliderPython = mel.eval('$tmpVar=$gPlayBackSlider')
+    cmds.timeControl(aPlayBackSliderPython, h=45, e=True);
+
     #check if hotkeys have been set
     if (cmds.hotkey( 't', ctl=True, query=True, name = True)== 'CharacterAnimationEditorNameCommand'):
         print "Hotkeys have been previously loaded"
     else:
         setHotkeys('default')
-    
+
     print "ENVIRONMENT SET\n", #the comma forces output on the status line
 
 
@@ -82,10 +85,19 @@ def setHotkeys(pref):
     cmds.nameCommand( 'ScriptEditorNameCommand', ann='ScriptEditorNameCommand', c='ScriptEditor')
     cmds.hotkey( k=hotkeys[6], alt=True, name='ScriptEditorNameCommand' )
     print pref + " hotkeys set (to change or reset hotkeys, right mouse click on the same shelf button\n",
-    
+
 
 
 def resetHotkeys():
+
+    if lib.checkAboveVersion(2015):
+        #check if hotkeyset exists
+        if cmds.hotkeySet('coopAnim', exists=True):
+            cmds.hotkeySet('coopAnim', current=True, e=True)
+        else:
+            cmds.hotkeySet( 'coopAnim', current=True )
+
+
     '''reset hotkeys'''
     #outliner
     cmds.hotkey( k='o', alt=False, name='PolyBrushMarkingMenuNameCommand', releaseName='PolyBrushMarkingMenuPopDownNameCommand')
@@ -104,4 +116,3 @@ def resetHotkeys():
     #script editor
     cmds.hotkey( k='s', alt=True, name='NameCom_HIKSetFullBodyKey' )
     print "reverted to default maya hotkeys (to change or reset hotkeys, right mouse click on the same shelf button\n",
-
