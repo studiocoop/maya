@@ -12,7 +12,7 @@
 @run:           import coopLib as lib (suggested)
 
 @created:       05 May, 2015
-@change:        19 Jun, 2016
+@change:        12 Jul, 2016
 '''
 import os
 import sys
@@ -32,8 +32,8 @@ def checkAboveVersion(year):
 
 def getEnvDir():
     '''returns environment dir'''
-    scriptsDir = os.path.abspath(cmds.internalVar(usd=True))
-    return os.path.dirname(scriptsDir)
+    envDir = os.path.abspath(cmds.about(env=True, q=True))
+    return os.path.dirname(envDir)
 
 def getLibDir():
     '''returns directory of the library'''
@@ -44,16 +44,24 @@ def openUrl(url):
     import webbrowser
     webbrowser.open(url, new=2, autoraise=True)
 
-def restartMaya():
-    '''force restart maya (make sure to save before calling this definition)'''
-    os.execl(sys.executable, sys.executable, * sys.argv)
+def restartMaya(brute=True):
+    '''force restart maya (use restartDialog)'''
+    if not brute:
+        mayaPyDir = os.path.join(os.path.dirname(sys.executable), "mayapy")
+        if cmds.about(nt=True, q=True):
+            mayaPyDir += ".exe"
+        scriptDir = os.path.dirname(os.path.realpath(__file__))
+        subprocess.Popen([mayaPyDir, scriptDir])
+        cmds.quit(force=True)
+    else:
+        os.execl(sys.executable, sys.executable, * sys.argv)
 
-def restartDialog():
+def restartDialog(brute=True):
     restart = cmds.confirmDialog( title='Restart Maya',
-                message='Maya needs to be restarted in order to show changes\n\nWould you like to restart maya?\n(REMEMBER TO SAVE)',
+                message='Maya needs to be restarted in order to show changes\nWould you like to restart maya now?',
                 button=['Yes','No'], defaultButton='Yes', cancelButton='No', dismissString='No', ma='center' )
     if restart == 'Yes':
-        restartMaya()
+        restartMaya(brute)
 
 
 ######################################################################################
