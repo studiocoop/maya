@@ -7,7 +7,7 @@
 
 @summary:       Maya coop python library
 
-@requires:      -
+@requires:      coopRestart
 
 @run:           import coopLib as lib (suggested)
 
@@ -16,6 +16,7 @@
 '''
 import os
 import sys
+import subprocess
 import maya.mel as mel
 import maya.cmds as cmds
 import maya.OpenMaya as om
@@ -50,7 +51,8 @@ def restartMaya(brute=True):
         mayaPyDir = os.path.join(os.path.dirname(sys.executable), "mayapy")
         if cmds.about(nt=True, q=True):
             mayaPyDir += ".exe"
-        scriptDir = os.path.dirname(os.path.realpath(__file__))
+        scriptDir = os.path.join(os.path.dirname(os.path.realpath(__file__)), "coopRestart.py")
+        print scriptDir
         subprocess.Popen([mayaPyDir, scriptDir])
         cmds.quit(force=True)
     else:

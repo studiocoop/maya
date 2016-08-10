@@ -22,11 +22,13 @@ import time
 import sys
 import os
 
+print __file__
 mayaDir = os.path.join(os.path.dirname(sys.executable), 'maya')
 platf = platform.system()
 if platf == 'Windows':
     mayaDir += '.exe'
 print mayaDir
 print "Waiting for Maya to close..."
-time.sleep(6)
+time.sleep(10)
+sys.path.insert(0, os.path.dirname(__file__))
 subprocess.Popen(mayaDir)

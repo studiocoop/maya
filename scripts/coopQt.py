@@ -14,6 +14,7 @@
 @created:       12 Aug, 2015
 @change:        21 Aug, 2015
 '''
+import maya.mel as mel
 import maya.cmds as cmds
 import maya.OpenMayaUI as omUI
 from PySide import QtCore, QtGui
@@ -56,7 +57,7 @@ def createMayaWindow(title, new, brand='studio.coop', tooltip='introduction to t
     mWindow.header.setFont(fontHeader)
     mWindow.header.setContentsMargins(10, 10, 10, 10)
 
-    mWindow.brand = QtGui.QLabel(help)
+    mWindow.brand = QtGui.QLabel(brand)
     mWindow.brand.setToolTip(tooltip)
     mWindow.brand.setStyleSheet("background-color: rgb(40,40,40); color: rgb(180,180,180); border:solid black 1px")
     mWindow.brand.setAlignment(QtCore.Qt.AlignHCenter)
@@ -64,6 +65,17 @@ def createMayaWindow(title, new, brand='studio.coop', tooltip='introduction to t
     mWindow.brand.setFont(fontFooter)
     print "window successfully created"
     return mWindow, False
+
+
+def getCoopIconPath():
+    """
+    :returns coop icon path directory
+    """
+    iconPaths = mel.eval('getenv("XBMLANGPATH")')
+    for iconPath in iconPaths.split(';'):
+        if "coop/maya/icons" in iconPath:
+            return iconPath
+
 
 def labeledComboBox(label, options):
     """

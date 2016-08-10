@@ -3,7 +3,7 @@
 @repository:    https://github.com/studiocoop/maya
 @version:       1.0
 @license:       UNLICENCE
-@author:        Santiago Montesdeoca [artineering.io]
+@author:        Santiago Montesdeoca [artineering.io]  
 
 @summary:       replaces the existing Maya.env with a template which has to
                 be in the same directory as this file and hides specified shelves
@@ -14,27 +14,40 @@
                 PYTHON:  execfile('E:/coopReplaceMayaEnvironment.py')
 
 @created:       8 Jul, 2015
-@change:        8 Aug, 2016
+@change:        10 Jul, 2015
 '''
 import os
+import shutil
+import inspect
 import maya.mel as mel
 import maya.cmds as cmds
-import userPrefs as prefs
-
+    
 #find environment directory
 scriptsDir = os.path.abspath(cmds.internalVar(usd=True))
 envDir = os.path.dirname(scriptsDir)
 
 #hide unnecessary shelves
-shelvesDict = prefs.unnecessaryShelvesForAnim
+shelvesDict = { 'Dynamics'      : 'Dynamics.mel',
+                'Fluids'        : 'Fluids.mel',
+                'Fur'           : 'Fur.mel',
+                'Muscle'        : 'Muscle.mel',
+                'nCloth'        : 'NCloth.mel',
+                'Subdivs'       : 'Subdivs.mel',
+                'Toon'          : 'Toon.mel',
+                'nHair'         : 'Hair.mel',
+                'PaintEffects'  : 'PaintEffects.mel',
+                'Sculpting'     : 'Sculpting.mel',
+                'FX Caching'    : 'FXCaching.mel',
+                'FX'            : 'FX.mel',
+                'XGen'          : 'XGen.mel'
+    }
 #Maya creates all default shelves in prefs only after each has been opened (initialized)
 for shelf in shelvesDict:
     try:
         mel.eval('jumpToNamedShelf("{0}");'.format(shelf))
     except:
         continue
-#all shelves loaded -> save them
-mel.eval('saveAllShelves $gShelfTopLevel;')
+mel.eval('saveAllShelves $gShelfTopLevel;') #all shelves loaded (save them)
 #time to delete them
 shelfTopLevel = mel.eval('$tempMelVar=$gShelfTopLevel') + '|'
 for shelf in shelvesDict:
@@ -53,9 +66,29 @@ for shelf in shelvesDict:
             continue
         os.rename(shelfName,deletedShelfName)
 
-#unload unnecessary plugins
-plugins = prefs.unnecessaryPluginsForAnim
-for plugin in plugins:
-    if (cmds.pluginInfo(plugin, loaded=True, q=True)):
-        cmds.unloadPlugin(plugin)
-        cmds.pluginInfo(plugin, autoload=False, e=True)
+#get environment file
+envFile = os.path.join(envDir, 'Maya.env')
+#find template environment file
+thisFile = inspect.getframeinfo(inspect.currentframe()).filename
+templateDir = os.path.dirname(os.path.abspath(thisFile))
+templateFile = os.path.join(templateDir, 'Maya.env')
+#copy and replace file
+shutil.copy(templateFile, envFile)
+cmds.headsUpMessage( '    MAYA EXPLOSION IN...    ')
+cmds.pause(sec=3)
+cmds.headsUpMessage( '    5    ')
+cmds.pause(sec=1) 
+cmds.headsUpMessage( '    4    ')
+cmds.pause(sec=1) 
+cmds.headsUpMessage( '    3    ')
+cmds.pause(sec=1) 
+cmds.headsUpMessage( '    2    ')
+cmds.pause(sec=1) 
+cmds.headsUpMessage( '    farewell world...    ')
+cmds.pause(sec=1) 
+#exit maya
+cmds.quit(f=True)
+#restarting right away doesn't work
+
+
+
